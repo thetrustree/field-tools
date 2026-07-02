@@ -3,7 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Field Tools — Financing &amp; Loan Guide</title>
+  <meta name="theme-color" content="#08121E">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Field Financing">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <title>Field Financing Calculator — Battleship</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600;700&display=swap');
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -76,12 +83,12 @@
       position:relative;
     }
     /* Job color borders */
-    .amount-cell.job-0 { border-color: var(--job0); }
-    .amount-cell.job-1 { border-color: var(--job1); }
-    .amount-cell.job-2 { border-color: var(--job2); }
-    .amount-cell.job-3 { border-color: var(--job3); }
-    .amount-cell.job-4 { border-color: var(--job4); }
-    .amount-cell.job-5 { border-color: var(--job5); }
+    .amount-cell.job-0 { border-color: var(--job0d); }
+    .amount-cell.job-1 { border-color: var(--job1d); }
+    .amount-cell.job-2 { border-color: var(--job2d); }
+    .amount-cell.job-3 { border-color: var(--job3d); }
+    .amount-cell.job-4 { border-color: var(--job4d); }
+    .amount-cell.job-5 { border-color: var(--job5d); }
 
     .amount-cell.active.job-0 { border-color:var(--job0); box-shadow:0 0 0 2px rgba(46,204,113,0.2); background:var(--job0bg); }
     .amount-cell.active.job-1 { border-color:var(--job1); box-shadow:0 0 0 2px rgba(245,200,66,0.2); background:var(--job1bg); }
@@ -151,24 +158,6 @@
     .plan-card.lowest-j3 .card-payment-num { color:var(--job3)!important; }
     .plan-card.lowest-j4 .card-payment-num { color:var(--job4)!important; }
     .plan-card.lowest-j5 .card-payment-num { color:var(--job5)!important; }
-
-    .field-summary-bar { display:flex; gap:12px; margin:10px 0 16px; flex-wrap:wrap; }
-    .field-summary-item { background:var(--deep); border:1px solid var(--border); border-radius:8px; padding:10px 16px; min-width:160px; flex:1; }
-    .field-summary-item.field-summary-interest { border-color:#F472B6; background:#180A13; }
-    .field-summary-item.fsj0 { border-color:var(--job0); background:var(--job0bg); }
-    .field-summary-item.fsj1 { border-color:var(--job1); background:var(--job1bg); }
-    .field-summary-item.fsj2 { border-color:var(--job2); background:var(--job2bg); }
-    .field-summary-item.fsj3 { border-color:var(--job3); background:var(--job3bg); }
-    .field-summary-item.fsj4 { border-color:var(--job4); background:var(--job4bg); }
-    .field-summary-item.fsj5 { border-color:var(--job5); background:var(--job5bg); }
-    .field-summary-label { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--mid); margin-bottom:4px; }
-    .field-summary-item.field-summary-interest .field-summary-label { color:#F472B6; }
-    .fsj0 .field-summary-label { color:var(--job0); } .fsj1 .field-summary-label { color:var(--job1); }
-    .fsj2 .field-summary-label { color:var(--job2); } .fsj3 .field-summary-label { color:var(--job3); }
-    .fsj4 .field-summary-label { color:var(--job4); } .fsj5 .field-summary-label { color:var(--job5); }
-    .field-summary-value { font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:900; color:var(--white); line-height:1; }
-    .field-summary-value span { font-size:14px; font-weight:600; color:var(--mid); }
-    .field-summary-sub { font-size:11px; color:var(--mid); margin-top:4px; }
 
     .lowest-badge { display:inline-block; font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:900; letter-spacing:1.5px; text-transform:uppercase; padding:3px 10px; border-radius:3px; margin-bottom:8px; }
     .lowest-badge.lj0 { background:var(--job0); color:#061210; }
@@ -310,101 +299,13 @@
       .header, .screen, .bottom-bar { padding-left:16px; padding-right:16px; }
     }
     .table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
-
-    /* ── APP-LEVEL TABS ── */
-    .app-tab-bar { display:flex; gap:4px; align-self:flex-end; }
-    .app-tab { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--mid); background:var(--deep); border:2px solid var(--border); border-bottom:none; border-radius:6px 6px 0 0; padding:10px 28px; cursor:pointer; transition:all 0.15s; white-space:nowrap; }
-    .app-tab:hover { color:var(--white); border-color:var(--royal); }
-    .app-tab.active { background:var(--panel); border-color:var(--royal); color:var(--white); }
-    .app-section { display:none; }
-    .app-section.active { display:block; }
-    #app-financing > .tabs { padding:0 32px; background:var(--panel); border-bottom:2px solid var(--border); align-self:stretch; }
-
-    /* ── LOAN GUIDE TABS ── */
-    .loan-tab-bar { display:flex; gap:0; padding:0 32px; background:var(--navy); border-bottom:3px solid var(--border); overflow-x:auto; }
-    .loan-tab { padding:11px 20px; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--mid); cursor:pointer; border-bottom:3px solid transparent; margin-bottom:-3px; transition:all 0.2s; user-select:none; white-space:nowrap; }
-    .loan-tab:hover { color:var(--white); }
-    .loan-tab.active { color:var(--white); border-bottom-color:var(--job1); }
-    .loan-panel { display:none; }
-    .loan-panel.active { display:block; }
-
-    /* ── LOAN GUIDE CONTENT ── */
-    .loan-wrap { max-width:1200px; margin:0 auto; padding:28px 32px; }
-    .lc-card { background:var(--panel); border:1px solid var(--border); border-radius:6px; overflow:hidden; margin-bottom:24px; }
-    .lc-card-header { background:rgba(0,0,0,0.25); color:var(--white); padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border); }
-    .lc-card-body { padding:24px; }
-    .lc-calc-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-    .lc-field-group { margin-bottom:20px; }
-    .lc-field-group label { display:block; font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; color:var(--mid); text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; }
-    .lc-range-value { display:inline-block; background:var(--royal); color:var(--white); font-family:'Barlow',sans-serif; font-size:22px; font-weight:600; padding:7px 16px; border-radius:4px; margin-bottom:8px; min-width:100px; text-align:center; letter-spacing:0.5px; }
-    .lc-range-labels { display:flex; justify-content:space-between; font-size:10px; color:var(--gray); margin-top:4px; }
-    .lc-select { width:100%; padding:10px 14px; border:1px solid var(--border); border-radius:4px; font-family:'Barlow',sans-serif; font-size:14px; color:var(--white); background:var(--deep); outline:none; }
-    .lc-select:focus { border-color:var(--royal); }
-    .score-meter { background:var(--deep); border-radius:40px; height:14px; overflow:hidden; margin:8px 0; border:1px solid var(--border); }
-    .score-fill { height:100%; border-radius:40px; transition:width 0.5s ease,background 0.5s ease; }
-    .score-labels { display:flex; justify-content:space-between; font-size:10px; color:var(--gray); font-family:'Barlow Condensed',sans-serif; letter-spacing:1px; text-transform:uppercase; }
-    .lc-result-panel { background:var(--deep); border:1px solid var(--border); border-radius:6px; padding:24px; }
-    .lc-result-tier { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--mid); margin-bottom:4px; }
-    .lc-result-label { font-family:'Barlow Condensed',sans-serif; font-size:30px; font-weight:900; margin-bottom:4px; }
-    .lc-result-sub { font-size:13px; color:var(--mid); margin-bottom:20px; }
-    .lc-result-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    .lc-result-box { background:rgba(255,255,255,0.06); border-radius:4px; padding:12px; }
-    .rb-label { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--mid); margin-bottom:4px; }
-    .rb-value { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:900; }
-    .rb-sub { font-size:11px; color:var(--mid); margin-top:2px; }
-    .lc-approval-badge { display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:4px; font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; margin-bottom:16px; }
-    .lc-badge-green  { background:rgba(46,204,113,0.15);  color:#2ECC71; border:1px solid rgba(46,204,113,0.3); }
-    .lc-badge-yellow { background:rgba(245,200,66,0.15);  color:#F5C842; border:1px solid rgba(245,200,66,0.3); }
-    .lc-badge-orange { background:rgba(230,126,34,0.15);  color:#E67E22; border:1px solid rgba(230,126,34,0.3); }
-    .lc-badge-red    { background:rgba(192,57,43,0.15);   color:#E74C3C; border:1px solid rgba(192,57,43,0.3); }
-    .lc-lender-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; margin-top:8px; }
-    .lc-lender-card { border-radius:6px; overflow:hidden; border:1px solid var(--border); }
-    .lc-lender-hdr { padding:10px 14px; font-family:'Barlow',sans-serif; font-size:12px; font-weight:600; color:var(--white); text-transform:uppercase; letter-spacing:0.5px; }
-    .lc-lender-body { padding:12px 14px; background:var(--deep); }
-    .lc-lender-fit { font-size:20px; margin-bottom:6px; }
-    .lc-lender-detail { font-size:11px; color:var(--mid); line-height:1.5; }
-    .lc-lender-tip { font-size:11px; font-weight:700; color:var(--royal2); margin-top:6px; border-top:1px solid var(--border); padding-top:6px; font-family:'Barlow Condensed',sans-serif; }
-    .lc-talking-point { background:rgba(46,109,180,0.1); border-left:4px solid var(--royal); border-radius:0 6px 6px 0; padding:16px 20px; margin-top:20px; }
-    .lc-tp-label { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:2px; color:var(--royal2); margin-bottom:6px; }
-    .lc-tp-text { font-size:14px; font-style:italic; color:var(--steel); line-height:1.6; }
-    .lc-fico-table { width:100%; border-collapse:collapse; font-size:12px; }
-    .lc-fico-table th { background:var(--navy); color:var(--white); padding:10px 12px; text-align:left; font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; white-space:nowrap; border-bottom:2px solid var(--border); }
-    .lc-fico-table td { padding:10px 12px; border-bottom:1px solid var(--border); vertical-align:middle; color:var(--white); }
-    .lc-fico-table tr:last-child td { border-bottom:none; }
-    .lc-fico-table tr:hover td { background:rgba(46,109,180,0.06); }
-    .lc-tier-pill { display:inline-block; padding:3px 10px; border-radius:12px; font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; text-transform:uppercase; }
-    .lc-profile-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
-    .lc-profile-card { border-radius:6px; overflow:hidden; border:1px solid var(--border); }
-    .lc-pc-header { padding:16px 20px; color:var(--white); display:flex; align-items:center; gap:12px; }
-    .lc-pc-name { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:800; text-transform:uppercase; }
-    .lc-pc-type { font-size:11px; opacity:0.8; margin-top:2px; }
-    .lc-pc-body { background:var(--panel); padding:16px 20px; }
-    .lc-pc-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid var(--border); font-size:12px; gap:12px; }
-    .lc-pc-row:last-child { border-bottom:none; }
-    .lc-pc-row-label { color:var(--mid); font-family:'Barlow Condensed',sans-serif; font-weight:700; white-space:nowrap; }
-    .lc-pc-row-value { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:14px; text-align:right; }
-    .lc-pc-strength { background:rgba(46,204,113,0.08); border-radius:4px; padding:10px 12px; font-size:12px; color:#2ECC71; line-height:1.5; margin-top:10px; border:1px solid rgba(46,204,113,0.2); }
-    .lc-pc-watch { background:rgba(230,126,34,0.08); border-radius:4px; padding:10px 12px; font-size:12px; color:#E67E22; line-height:1.5; margin-top:8px; border:1px solid rgba(230,126,34,0.2); }
-    .lc-pc-section-label { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; opacity:0.8; }
-    .lc-disclaimer { background:var(--deep); border-radius:6px; padding:14px 18px; font-size:11px; color:var(--mid); line-height:1.6; margin-top:24px; border:1px solid var(--border); }
-    .lc-disclaimer strong { color:var(--steel); }
-    .lc-current-row td { background:rgba(46,109,180,0.18) !important; font-weight:800; }
-    @media (max-width:700px) {
-      .lc-calc-grid { grid-template-columns:1fr; }
-      .lc-result-grid { grid-template-columns:1fr; }
-      .lc-lender-grid { grid-template-columns:1fr; }
-      .lc-profile-grid { grid-template-columns:1fr; }
-      .loan-tab-bar { padding:0 16px; }
-      .loan-wrap { padding:16px; }
-    }
   </style>
 </head>
 <body>
 
 <div class="header">
   <div class="header-left">
-    <div class="brand-logo-wrap" id="brand-logo-wrap" onclick="triggerLogoUpload()" title="Click to change logo" style="cursor:pointer;position:relative;">
-    <img id="custom-brand-logo" src="" alt="" style="display:none;height:58px;width:58px;object-fit:contain;border-radius:6px;flex-shrink:0;">
+    <div class="brand-logo-wrap">
     <svg id="default-brand-logo" width="58" height="58" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
       <circle cx="32" cy="32" r="30" fill="none" stroke="#2E6DB4" stroke-width="1.5" opacity="0.5"/>
       <circle cx="32" cy="32" r="25" fill="#060E18" stroke="#1A3A5A" stroke-width="1"/>
@@ -421,28 +322,19 @@
       <line x1="32" y1="24" x2="32" y2="15" stroke="#6A8AA8" stroke-width="1" opacity="0.9"/>
       <line x1="27" y1="18" x2="37" y2="18" stroke="#6A8AA8" stroke-width="0.8" opacity="0.7"/>
     </svg>
-    <div id="logo-upload-hint" style="display:none;position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--mid);white-space:nowrap;letter-spacing:1px;">TAP TO CHANGE</div>
     </div>
-    <input type="file" id="logo-file-input" accept="image/*" style="display:none" onchange="handleLogoUpload(this)">
     <div>
-      <div class="header-label">Field Technician Suite</div>
-      <h1>Field <span>Tools</span></h1>
+      <div class="header-label">Brought to you by Battleship</div>
+      <h1>Field <span>Financing</span></h1>
       <div class="header-market" id="header-market-name"></div>
-      <div class="header-sub">Financing calculator · FICO &amp; loan guide · Lender match</div>
+      <div class="header-sub">Type in the job amount. See every option that fits.</div>
     </div>
   </div>
-  <div class="app-tab-bar">
-    <div class="app-tab active" onclick="switchApp('financing',this)">⚡ Financing</div>
-    <div class="app-tab" onclick="switchApp('loan',this)">📊 Loan Guide</div>
-    <div class="app-tab" onclick="switchApp('guide',this)">🚀 Getting Started</div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('field')">Field View</div>
+    <div class="tab" onclick="switchTab('office')">Office View</div>
+    <div class="tab" onclick="switchTab('setup')">Partner Setup</div>
   </div>
-</div>
-
-<div id="app-financing" class="app-section active">
-<div class="tabs">
-  <div class="tab active" onclick="switchBsTab('field',this)">Field View</div>
-  <div class="tab" onclick="switchBsTab('office',this)">Office View</div>
-  <div class="tab" onclick="switchBsTab('setup',this)">Partner Setup</div>
 </div>
 
 <!-- FIELD VIEW -->
@@ -478,8 +370,6 @@
       <button class="btn btn-ghost btn-sm" id="share-setup-btn" onclick="copyTeamSetupLink()">&#128279; Copy Team Link</button>
       <button class="btn btn-ghost btn-sm" id="share-field-btn" onclick="copyFieldViewLink()">&#128279; Copy Field Link</button>
       <button class="btn btn-ghost btn-sm" onclick="changeMarketName()">&#9998; Change Market Name</button>
-      <button class="btn btn-ghost btn-sm" onclick="triggerLogoUpload()">&#128444; Upload Logo</button>
-      <button class="btn btn-ghost btn-sm" onclick="removeLogo()">&#10006; Remove Logo</button>
       <button class="btn btn-ghost btn-sm" onclick="openImport()">&#8593; Import Rate Sheet</button>
       <button class="btn btn-primary" onclick="addPartner()">+ Add Partner</button>
     </div>
@@ -487,181 +377,9 @@
   <div id="partners-list"></div>
 </div>
 
-</div><!-- /app-financing -->
-
-<div id="app-loan" class="app-section">
-  <div class="loan-tab-bar">
-    <div class="loan-tab active" onclick="switchLoanTab('calculator',this)">💰 Calculator</div>
-    <div class="loan-tab" onclick="switchLoanTab('lenders',this)">🏦 Lender Match</div>
-    <div class="loan-tab" onclick="switchLoanTab('fico-table',this)">📊 FICO Table</div>
-    <div class="loan-tab" onclick="switchLoanTab('profiles',this)">📋 Profiles</div>
-  </div>
-
-  <div class="loan-panel active" id="loan-tab-calculator">
-    <div class="loan-wrap">
-      <div class="lc-calc-grid">
-        <div>
-          <div class="lc-card">
-            <div class="lc-card-header">📝 Loan Information</div>
-            <div class="lc-card-body">
-              <div class="lc-field-group">
-                <label>FICO Credit Score</label>
-                <div class="lc-range-value" id="score-display">680</div>
-                <input type="range" id="fico-slider" min="300" max="850" value="680" oninput="lcUpdateCalc()">
-                <div class="lc-range-labels"><span>300 Poor</span><span>580</span><span>670</span><span>740</span><span>850 Elite</span></div>
-              </div>
-              <div class="lc-field-group">
-                <label>Loan Amount</label>
-                <div class="lc-range-value" id="amount-display">$15,000</div>
-                <input type="range" id="amount-slider" min="1000" max="75000" value="15000" step="500" oninput="lcUpdateCalc()">
-                <div class="lc-range-labels"><span>$1,000</span><span>$25K</span><span>$50K</span><span>$75,000</span></div>
-              </div>
-              <div class="lc-field-group">
-                <label>Loan Term</label>
-                <select id="term-select" class="lc-select" onchange="lcUpdateCalc()">
-                  <option value="24">24 months (2 years)</option>
-                  <option value="36">36 months (3 years)</option>
-                  <option value="48">48 months (4 years)</option>
-                  <option value="60" selected>60 months (5 years)</option>
-                  <option value="84">84 months (7 years)</option>
-                  <option value="120">120 months (10 years)</option>
-                  <option value="180">180 months (15 years)</option>
-                </select>
-              </div>
-              <div class="lc-field-group">
-                <label>Score Health</label>
-                <div class="score-meter"><div class="score-fill" id="score-fill"></div></div>
-                <div class="score-labels"><span>Poor</span><span>Fair</span><span>Good</span><span>V.Good</span><span>Excellent</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="lc-result-panel">
-            <div class="lc-result-tier" id="res-tier">FICO TIER</div>
-            <div class="lc-result-label" id="res-label">—</div>
-            <div class="lc-result-sub" id="res-sub">Adjust the slider above</div>
-            <div class="lc-result-grid">
-              <div class="lc-result-box"><div class="rb-label">Est. APR Range</div><div class="rb-value" id="res-apr">—</div><div class="rb-sub">Unsecured home project loan</div></div>
-              <div class="lc-result-box"><div class="rb-label">Monthly Payment</div><div class="rb-value" id="res-pmt">—</div><div class="rb-sub" id="res-pmt-sub">—</div></div>
-              <div class="lc-result-box"><div class="rb-label">Total Interest</div><div class="rb-value" id="res-interest">—</div><div class="rb-sub">Over full term</div></div>
-              <div class="lc-result-box"><div class="rb-label">Approval Odds</div><div class="rb-value" id="res-approval">—</div><div class="rb-sub" id="res-lender-type">—</div></div>
-            </div>
-          </div>
-          <div class="lc-card" style="margin-top:16px;">
-            <div class="lc-card-header">🎯 Best Lender Match</div>
-            <div class="lc-card-body">
-              <div id="best-lender-badge" class="lc-approval-badge"></div>
-              <p id="best-lender-text" style="font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:0;"></p>
-              <div class="lc-talking-point">
-                <div class="lc-tp-label">💬 Talking Point for Your Tech</div>
-                <div class="lc-tp-text" id="talking-point-text"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="lc-card">
-        <div class="lc-card-header">⬆️ What Score Improvement Would Save</div>
-        <div class="lc-card-body">
-          <p style="font-size:13px;color:var(--mid);margin-bottom:16px;line-height:1.6;">Comparing monthly payments and total interest at your current score vs. one tier up — mid-range APR, selected amount &amp; term.</p>
-          <div style="overflow-x:auto;"><table class="lc-fico-table"><thead><tr><th>Scenario</th><th>FICO</th><th>Est. APR</th><th>Monthly Pmt</th><th>Total Interest</th><th>Vs. Current</th></tr></thead><tbody id="savings-tbody"></tbody></table></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="loan-panel" id="loan-tab-lenders">
-    <div class="loan-wrap">
-      <div class="lc-card">
-        <div class="lc-card-header">🏦 Lender Match for FICO <span id="lender-fico-display">680</span></div>
-        <div class="lc-card-body">
-          <p style="font-size:13px;color:var(--mid);margin-bottom:20px;line-height:1.6;">Based on FICO score set in the Calculator tab. Adjust slider there to update this view.</p>
-          <div class="lc-lender-grid" id="lender-grid"></div>
-          <div class="lc-talking-point" style="margin-top:24px;">
-            <div class="lc-tp-label">💬 Recommended Pitch</div>
-            <div class="lc-tp-text" id="lender-talking-point"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="loan-panel" id="loan-tab-fico-table">
-    <div class="loan-wrap">
-      <div class="lc-card">
-        <div class="lc-card-header">📊 Full FICO Reference Table — All Score Bands</div>
-        <div class="lc-card-body" style="padding:0;overflow-x:auto;">
-          <table class="lc-fico-table" id="full-table"></table>
-        </div>
-      </div>
-      <div class="lc-disclaimer"><strong>Disclaimer:</strong> APR ranges and approval odds are illustrative industry benchmarks only. Actual rates depend on lender, term, DTI, employment history, and state. For educational reference only — not a credit decision.</div>
-    </div>
-  </div>
-
-  <div class="loan-panel" id="loan-tab-profiles">
-    <div class="loan-wrap">
-      <div class="lc-profile-grid" id="profile-grid"></div>
-      <div class="lc-disclaimer"><strong>Source:</strong> Lender data from publicly available industry reports, CFPB data, NerdWallet, Credible, WalletHub (2025–2026), and contractor community feedback. Verify current program terms with each lender before presenting to customers.</div>
-    </div>
-  </div>
-</div><!-- /app-loan -->
-
-<div id="app-guide" class="app-section">
-  <div style="max-width:720px;margin:0 auto;padding:24px 16px;">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:var(--white);letter-spacing:1px;margin-bottom:4px;">Getting Started</div>
-    <div style="font-size:13px;color:var(--mid);margin-bottom:28px;">How to use Field Tools with your technicians</div>
-
-    <div style="display:flex;flex-direction:column;gap:16px;">
-
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px 24px;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--royal2);margin-bottom:10px;">⚡ Step 1 — Set Up Your Partners</div>
-        <div style="font-size:13px;color:var(--light);line-height:1.7;">Go to <strong>Financing → Partner Setup</strong>. Your default lenders (Service Finance, Wells Fargo, Synchrony) are already loaded. You can:<br>
-        &bull; Toggle <strong>Visible</strong> on/off for individual plans<br>
-        &bull; Click <strong>Hide</strong> on a partner to remove them from Field View without deleting them<br>
-        &bull; Add custom partners and plans for your market<br>
-        &bull; Use <strong>Copy Team Link</strong> to share your setup with your whole team instantly</div>
-      </div>
-
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px 24px;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--royal2);margin-bottom:10px;">🔢 Step 2 — Enter Job Amounts in Field View</div>
-        <div style="font-size:13px;color:var(--light);line-height:1.7;">Go to <strong>Financing → Field View</strong>. Tap a colored job slot and type the job amount. Each slot gets a color (green, yellow, red, purple…). You can run up to 6 jobs side by side.<br><br>
-        Tap a slot to see all eligible financing plans sorted by lowest monthly payment. The <strong>Lowest Payment</strong> and <strong>Lowest Interest</strong> cards appear at the top so you can lead with the best option at the table.</div>
-      </div>
-
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px 24px;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--royal2);margin-bottom:10px;">🏦 Step 3 — Use the Loan Guide for FICO Conversations</div>
-        <div style="font-size:13px;color:var(--light);line-height:1.7;">Switch to the <strong>Loan Guide</strong> tab. Set the customer's FICO score with the slider — you'll instantly see:<br>
-        &bull; Estimated APR range and monthly payment<br>
-        &bull; Which lenders are accessible at that score<br>
-        &bull; Full FICO tier table for comparison shopping<br>
-        &bull; Lender profiles with strengths and watch-outs<br><br>
-        Use this to set realistic expectations before the customer applies.</div>
-      </div>
-
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px 24px;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--royal2);margin-bottom:10px;">📋 Office View — Dealer Fee Summary</div>
-        <div style="font-size:13px;color:var(--light);line-height:1.7;">Switch to <strong>Financing → Office View</strong> to see a cost-to-company breakdown across all jobs. This shows dealer fee impact by plan so the office knows the real margin on each financed job.</div>
-      </div>
-
-      <div style="background:#0D1F14;border:1px solid #2ECC71;border-radius:10px;padding:20px 24px;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#2ECC71;margin-bottom:10px;">💡 Pro Tips</div>
-        <div style="font-size:13px;color:var(--light);line-height:1.7;">
-        &bull; <strong>Copy Field Link</strong> in Partner Setup sends techs a read-only version locked to Field View only — they can't edit plans<br>
-        &bull; Plans with a 0 pay factor are SAC (Same As Cash) — payment = amount ÷ term<br>
-        &bull; Service Finance goes up to 180 months (15 years) — great for large installs<br>
-        &bull; GreenSky prefers 650+ FICO; Wells Fargo is most trusted with homeowners but slowest to fund<br>
-        &bull; Bookmark this page on your phone home screen for one-tap access in the field
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div><!-- /app-guide -->
-
 <div class="bottom-bar">
   <div class="bottom-quote">"The customer doesn't say no to the job. <strong>They say no to the payment.</strong>"</div>
-  <button class="btn btn-ghost btn-sm" onclick="handleReset()">Reset</button>
+  <button class="btn btn-ghost btn-sm" onclick="resetAll()">Reset All</button>
 </div>
 
 <!-- IMPORT MODAL -->
@@ -1665,7 +1383,7 @@ const DEFAULT_PARTNERS = [
 let partners = [];
 let jobSlots = [];
 let selectedIndex = 0;
-let currentBsTab = 'field';
+let currentTab = 'field';
 let marketName = '';
 let fieldOnlyMode = false;
 const STORAGE_PREFIX = 'bs_2026_static_';
@@ -1701,62 +1419,6 @@ function saveData() {
 
 function saveMarketName() {
   localStorage.setItem(STORAGE_PREFIX + 'marketName', marketName);
-}
-
-const LOGO_KEY = 'fieldtools_logo';
-
-function loadLogo() {
-  const saved = localStorage.getItem(LOGO_KEY);
-  if (saved) applyLogo(saved);
-  if (!fieldOnlyMode) {
-    document.getElementById('brand-logo-wrap').title = 'Click to change logo';
-    document.getElementById('logo-upload-hint').style.display = 'block';
-  } else {
-    document.getElementById('brand-logo-wrap').style.cursor = 'default';
-    document.getElementById('brand-logo-wrap').onclick = null;
-  }
-}
-
-function applyLogo(dataUrl) {
-  const img = document.getElementById('custom-brand-logo');
-  const svg = document.getElementById('default-brand-logo');
-  img.src = dataUrl;
-  img.style.display = 'block';
-  svg.style.display = 'none';
-}
-
-function triggerLogoUpload() {
-  if (fieldOnlyMode) return;
-  document.getElementById('logo-file-input').click();
-}
-
-function handleLogoUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const canvas = document.createElement('canvas');
-    const img = new Image();
-    img.onload = function() {
-      const maxDim = 120;
-      const scale = Math.min(maxDim / img.width, maxDim / img.height, 1);
-      canvas.width = Math.round(img.width * scale);
-      canvas.height = Math.round(img.height * scale);
-      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-      const dataUrl = canvas.toDataURL('image/png', 0.85);
-      localStorage.setItem(LOGO_KEY, dataUrl);
-      applyLogo(dataUrl);
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-  input.value = '';
-}
-
-function removeLogo() {
-  localStorage.removeItem(LOGO_KEY);
-  document.getElementById('custom-brand-logo').style.display = 'none';
-  document.getElementById('default-brand-logo').style.display = 'block';
 }
 
 function renderMarketName() {
@@ -2259,7 +1921,6 @@ function renderCards() {
 
   let allPlans = [];
   partners.forEach(function(p) {
-    if (p.hidden) return;
     p.plans.forEach(function(pl) { allPlans.push({ partner:p.name, plan:pl }); });
   });
 
@@ -2289,27 +1950,7 @@ function renderCards() {
     }
   });
 
-  let summaryHtml = '';
-  if (eligible.length > 0) {
-    const lpPlan = eligible.find(function(x){ return x.plan.id === lowestPlanId; });
-    const liPlan = eligible.find(function(x){ return x.plan.id === lowestInterestPlanId; });
-    const lpRate = lpPlan ? getPlanInterestRate(lpPlan.plan) : null;
-    summaryHtml = '<div class="field-summary-bar">' +
-      '<div class="field-summary-item fsj' + colorIdx + '">' +
-        '<div class="field-summary-label">&#9660; Lowest Payment</div>' +
-        '<div class="field-summary-value">$' + Math.round(lowestPayment).toLocaleString() + '<span>/mo</span></div>' +
-        (lpPlan ? '<div class="field-summary-sub">' + lpPlan.partner + (lpRate !== null ? ' &middot; ' + lpRate + '%' : '') + '</div>' : '') +
-      '</div>' +
-      (lowestInterestPlanId && lowestInterestPlanId !== lowestPlanId && liPlan ?
-        '<div class="field-summary-item field-summary-interest">' +
-          '<div class="field-summary-label">&#9733; Lowest Interest Rate</div>' +
-          '<div class="field-summary-value">' + lowestInterest + '<span>% &nbsp;&middot;&nbsp; $' + Math.round(lowestInterestPayment).toLocaleString() + '</span><span>/mo</span></div>' +
-          '<div class="field-summary-sub">' + liPlan.partner + '</div>' +
-        '</div>' : '') +
-    '</div>';
-  }
-
-  let html = '<div class="results-label">Selected: ' + (slot.label || 'Job') + '<span>$' + amount.toLocaleString() + '</span></div>' + summaryHtml;
+  let html = '<div class="results-label">Selected: ' + (slot.label || 'Job') + '<span>$' + amount.toLocaleString() + '</span></div>';
 
   if (eligible.length > 0) {
     const sorted = eligible.slice().sort(function(a,b){ return calcPayment(a.plan,amount) - calcPayment(b.plan,amount); });
@@ -2416,7 +2057,6 @@ function buildPartnerBlock(p, pi) {
         '<div><div class="partner-name-display">'+p.name+'</div>' +
         '<div class="partner-plan-count">'+p.plans.length+' plan'+(p.plans.length!==1?'s':'')+'</div></div>' +
       '</div>' +
-      '<button class="btn btn-sm" style="background:'+(p.hidden?'#4B2D1A':'var(--panel)')+';border:1px solid '+(p.hidden?'#F97316':'var(--border)')+';color:'+(p.hidden?'#F97316':'var(--mid)')+'" onclick="event.stopPropagation();toggleHidePartner('+pi+')">'+(p.hidden?'&#128065; Show':'&#128065; Hide')+'</button>' +
       '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();removePartner('+pi+')">Remove</button>' +
     '</div>' +
     '<div class="partner-body '+openClass+'" id="pbody-'+pi+'">' +
@@ -2428,14 +2068,10 @@ function buildPartnerBlock(p, pi) {
         '<table class="plans-table"><thead><tr>' +
           '<th>Plan Name</th><th>Term (mo)</th>' +
           '<th>Pay Factor<br><span style="font-weight:400;font-size:9px;">per $100 (0=SAC)</span></th>' +
-          '<th>Dealer Fee %</th><th>Min $</th><th>Max $</th><th>Promo Label</th><th>Visible</th><th></th>' +
+          '<th>Dealer Fee %</th><th>Min $</th><th>Max $</th><th>Promo Label</th><th>Active</th><th></th>' +
         '</tr></thead><tbody id="plans-tbody-'+pi+'">'+planRows+'</tbody></table>' +
       '</div>' +
-      '<div style="display:flex;gap:8px;margin-top:10px;">' +
-        '<button class="btn btn-ghost btn-sm" onclick="addPlan('+pi+')">+ Add Plan</button>' +
-        '<button class="btn btn-ghost btn-sm" onclick="setAllPlansActive('+pi+',false)">Hide All</button>' +
-        '<button class="btn btn-ghost btn-sm" onclick="setAllPlansActive('+pi+',true)">Show All</button>' +
-      '</div>' +
+      '<button class="btn btn-ghost btn-sm" onclick="addPlan('+pi+')">+ Add Plan</button>' +
     '</div>' +
   '</div>';
 }
@@ -2449,39 +2085,39 @@ function buildPlanRow(pl, pi, li) {
     '<td><input class="plan-input narrow" type="number" value="'+pl.minAmt+'" min="0" oninput="updatePlan('+pi+','+li+',\'minAmt\',parseFloat(this.value)||0)"></td>' +
     '<td><input class="plan-input narrow" type="number" value="'+pl.maxAmt+'" min="0" oninput="updatePlan('+pi+','+li+',\'maxAmt\',parseFloat(this.value)||0)"></td>' +
     '<td><input class="plan-input wide" value="'+(pl.promo||'').replace(/"/g,'&quot;')+'" placeholder="Optional" oninput="updatePlan('+pi+','+li+',\'promo\',this.value)"></td>' +
-    '<td style="text-align:center;"><input type="checkbox" '+(pl.active?'checked':'')+' onchange="updatePlan('+pi+','+li+',\'active\',this.checked)" style="width:16px;height:16px;cursor:pointer;accent-color:#2ECC71;"></td>' +
+    '<td><label class="toggle"><input type="checkbox" '+(pl.active?'checked':'')+' onchange="updatePlan('+pi+','+li+',\'active\',this.checked)"><span class="toggle-slider"></span></label></td>' +
     '<td><button class="btn btn-danger" style="padding:5px 10px;font-size:11px;" onclick="removePlan('+pi+','+li+')">&#10005;</button></td>' +
   '</tr>';
 }
 
 function togglePartner(pi) { partners[pi]._open=!partners[pi]._open; renderSetup(); }
-function toggleHidePartner(pi) { partners[pi].hidden=!partners[pi].hidden; saveData(); renderSetup(); }
 function updatePartnerName(pi,val) { partners[pi].name=val; saveData(); const el=document.querySelector('#partner-block-'+pi+' .partner-name-display'); if(el) el.textContent=val; }
 function updatePlan(pi,li,field,val) { partners[pi].plans[li][field]=val; saveData(); }
 function addPartner() { partners.push({id:'p'+Date.now(),name:'New Partner',_open:true,plans:[]}); saveData(); renderSetup(); }
 function removePartner(pi) { if(!confirm('Remove "'+partners[pi].name+'" and all its plans?')) return; partners.splice(pi,1); saveData(); renderSetup(); }
-function setAllPlansActive(pi, val) { partners[pi].plans.forEach(function(pl){ pl.active=val; }); saveData(); renderSetup(); }
 function addPlan(pi) { partners[pi].plans.push({id:'pl'+Date.now(),name:'New Plan',term:12,factor:0,dealerFee:0,minAmt:500,maxAmt:100000,promo:'',active:true}); saveData(); renderSetup(); }
 function removePlan(pi,li) { partners[pi].plans.splice(li,1); saveData(); renderSetup(); }
 
 // TABS
-function switchBsTab(tab, el) {
+function switchTab(tab) {
   if (fieldOnlyMode && tab !== 'field') return;
-  currentBsTab = tab;
-  document.querySelectorAll('#app-financing .screen').forEach(function(s){s.classList.remove('active');});
-  document.querySelectorAll('#app-financing .tab').forEach(function(t){t.classList.remove('active');});
+  currentTab = tab;
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
   document.getElementById('screen-'+tab).classList.add('active');
-  el.classList.add('active');
+  document.querySelectorAll('.tab').forEach(function(t){
+    if(t.textContent.toLowerCase().includes(tab==='field'?'field':tab==='office'?'office':'partner')) t.classList.add('active');
+  });
   if(tab==='setup') renderSetup();
   if(tab==='field'){renderAmountGrid();renderCards();}
   if(tab==='office') renderOfficeSummary();
 }
 
 // RESET
-function handleReset() {
-  const msg = currentBsTab==='setup' ? 'Reset all partners and plans to defaults?' : 'Clear all job amounts?';
+function resetAll() {
+  const msg = currentTab==='setup' ? 'Reset all partners and plans to defaults?' : 'Clear all job amounts?';
   if(!confirm(msg)) return;
-  if(currentBsTab==='setup'){partners=JSON.parse(JSON.stringify(DEFAULT_PARTNERS));saveData();renderSetup();}
+  if(currentTab==='setup'){partners=JSON.parse(JSON.stringify(DEFAULT_PARTNERS));saveData();renderSetup();}
   else{jobSlots=[{amount:'',label:'Job 1'},{amount:'',label:'Job 2'},{amount:'',label:'Job 3'}];selectedIndex=0;saveData();renderAmountGrid();renderCards();renderOfficeSummary();}
 }
 
@@ -2585,6 +2221,28 @@ function parseImportJson(text) {
   return JSON.parse(clean);
 }
 
+async function parseWithLocalImportHelper(file) {
+  try {
+    setImportStatus('Reading rate sheet with local helper...', 'loading');
+    const body = new FormData();
+    body.append('file', file);
+
+    const response = await fetch('http://127.0.0.1:8010/import-rate-sheet', {
+      method: 'POST',
+      body: body
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(function(){ return {}; });
+      throw new Error(errorData.error || 'Local helper could not read that file.');
+    }
+
+    return await response.json();
+  } catch (err) {
+    console.warn('Local import helper unavailable:', err);
+    return null;
+  }
+}
 
 function parsePlanText(text, fallbackPartnerName) {
   const rows = text.trim().split(/\r?\n/).filter(function(row){ return row.trim(); });
@@ -2828,6 +2486,33 @@ function fileNameWithoutExt(name) {
   return String(name || 'Imported Partner').replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim() || 'Imported Partner';
 }
 
+const IMPORT_PROMPT = `You are reading a financing rate sheet from a lending partner (such as Wells Fargo, Service Finance, Synchrony, GreenSky, or similar).
+
+Extract all financing plans you can find and return ONLY a JSON object with this exact structure — no explanation, no markdown, just the raw JSON:
+
+{
+  "partnerName": "Name of the financing company",
+  "plans": [
+    {
+      "name": "Plan name or description",
+      "term": 60,
+      "factor": 2.1217,
+      "dealerFee": 3.5,
+      "minAmt": 500,
+      "maxAmt": 100000,
+      "promo": "Promotional label if any (e.g. 0% for 12 months)"
+    }
+  ]
+}
+
+Rules:
+- "term" is the number of months
+- "factor" is the monthly payment factor per $100 financed. If the plan is Same As Cash or deferred interest with 0% APR, set factor to 0 and calculate payment by dividing amount by term.
+- "dealerFee" is the dealer fee percentage. If not shown, set to 0.
+- "minAmt" and "maxAmt" are the minimum and maximum job amounts in dollars. If not specified, use 500 and 100000.
+- "promo" is a short label for promotional terms (e.g. "0% for 18 months", "6 Mo No Payment"). Leave empty string if none.
+- Return ALL plans you can find on the document.
+- Return ONLY the JSON. No other text.`;
 
 function fileToBase64(file) {
   return new Promise(function(resolve, reject) {
@@ -2856,262 +2541,19 @@ function fileToArrayBuffer(file) {
   });
 }
 
-// ── TOP-LEVEL APP NAV ────────────────────────────────────────────────────
-let currentApp = 'financing';
-function switchApp(app, el) {
-  currentApp = app;
-  document.querySelectorAll('.app-section').forEach(function(s){ s.classList.remove('active'); });
-  document.querySelectorAll('.app-tab').forEach(function(t){ t.classList.remove('active'); });
-  document.getElementById('app-' + app).classList.add('active');
-  el.classList.add('active');
-}
-
-// ── LOAN GUIDE — TAB NAV ─────────────────────────────────────────────────
-function switchLoanTab(id, el) {
-  document.querySelectorAll('.loan-panel').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('.loan-tab').forEach(function(t){ t.classList.remove('active'); });
-  document.getElementById('loan-tab-' + id).classList.add('active');
-  el.classList.add('active');
-  if (id === 'fico-table') lcBuildFullTable();
-  if (id === 'profiles')   lcBuildProfiles();
-}
-
-// ── LOAN GUIDE — DATA ────────────────────────────────────────────────────
-const LC_TIERS = [
-  { min:300, max:499, label:'Deep Subprime', shortLabel:'Poor', apr:null, aprDisplay:'Unavailable',
-    approvalSm:'Unlikely (0–5%)', approvalMd:'Unlikely (0–5%)', approvalLg:'Unlikely (0–5%)',
-    color:'#C0392B', lightColor:'rgba(192,57,43,0.2)',
-    lenderFits:{wf:'❌',sfc:'❌',gs:'❌',turns:'❌',sync:'❌'},
-    lenderDetail:{wf:'Below floor. Not an option.',sfc:'Below minimum — no programs apply.',gs:'Below minimum — hard decline likely.',turns:'Below likely threshold. Not advised.',sync:'Below project card threshold.'},
-    best:'None — credit repair first',
-    talkingPoint:'"We want to help, and right now the best thing we can do is help you fix what\'s holding you back. Six months of the right moves can change this conversation completely."'
-  },
-  { min:500, max:579, label:'Subprime', shortLabel:'Poor', apr:0.33, aprDisplay:'28–36%',
-    approvalSm:'Low (5–15%)', approvalMd:'Low (5–15%)', approvalLg:'Unlikely (2–8%)',
-    color:'#C0392B', lightColor:'rgba(192,57,43,0.2)',
-    lenderFits:{wf:'❌',sfc:'⚠️',gs:'⚠️',turns:'⚠️',sync:'⚠️'},
-    lenderDetail:{wf:'Below WF\'s unsecured floor (~620). Not an option.',sfc:'Minimum 600–620. Borderline — very low odds.',gs:'Soft minimum ~600; below preferred range. Long-shot.',turns:'Not disclosed — likely decline. Last resort only.',sync:'Project card may approve at 580+ if DTI is strong.'},
-    best:'Synchrony (if 580+) or Turns as fallback',
-    talkingPoint:'"Your best move is Synchrony — they\'re DTI-weighted, not just score-weighted. If your income is solid, that\'s your shot. Let\'s try it."'
-  },
-  { min:580, max:619, label:'Near-Prime', shortLabel:'Fair', apr:0.26, aprDisplay:'22–29%',
-    approvalSm:'Low–Moderate (20–35%)', approvalMd:'Low (15–25%)', approvalLg:'Low (10–20%)',
-    color:'#E67E22', lightColor:'rgba(230,126,34,0.2)',
-    lenderFits:{wf:'❌',sfc:'⚠️',gs:'⚠️',turns:'⚠️',sync:'⚠️'},
-    lenderDetail:{wf:'Still below WF minimum. No path here yet.',sfc:'Some programs activate at 600. Possible at 600–619.',gs:'600–619 = conditional approval, higher rate, lower limit.',turns:'Worth attempting — no published floor.',sync:'Home project card approves some at 600–640. DTI-heavy.'},
-    best:'Service Finance or GreenSky (600+ programs)',
-    talkingPoint:'"Two shots here: SFC and GreenSky. Let\'s run a soft pull on both and see what sticks. No hard hit until we know there\'s an offer."'
-  },
-  { min:620, max:659, label:'Near-Prime+', shortLabel:'Fair', apr:0.20, aprDisplay:'16–22%',
-    approvalSm:'Moderate (40–55%)', approvalMd:'Moderate (30–45%)', approvalLg:'Low–Moderate (20–35%)',
-    color:'#E67E22', lightColor:'rgba(230,126,34,0.2)',
-    lenderFits:{wf:'⚠️',sfc:'✅',gs:'⚠️',turns:'✅',sync:'✅'},
-    lenderDetail:{wf:'620 is WF\'s floor. Possible but tough — higher rate, lower limit.',sfc:'620–680 is SFC\'s active sweet spot. Strong coverage.',gs:'650+ preferred; 620–649 is conditional approval territory.',turns:'Likely eligible. Contractor channel accelerates approval.',sync:'640+ is Synchrony\'s approximate threshold. Programs open up.'},
-    best:'Service Finance (strongest), Turns, Synchrony',
-    talkingPoint:'"You\'re in the door with 3 of 5 options. SFC is the strongest play. If they counter, Synchrony is your backup."'
-  },
-  { min:660, max:699, label:'Prime', shortLabel:'Good', apr:0.145, aprDisplay:'11–16%',
-    approvalSm:'Good (60–70%)', approvalMd:'Good (55–65%)', approvalLg:'Moderate (45–58%)',
-    color:'#1E8449', lightColor:'rgba(30,132,73,0.2)',
-    lenderFits:{wf:'⚠️',sfc:'✅',gs:'✅',turns:'✅',sync:'✅'},
-    lenderDetail:{wf:'660+ puts WF personal loans within range — rate higher than advertised min.',sfc:'Strong SFC approval zone. Multiple programs, competitive rates.',gs:'660+ is GreenSky\'s preferred entry. Promotional terms available.',turns:'Solid eligibility. Contractor channel accelerates approval.',sync:'All Synchrony programs accessible. Promo financing may be available.'},
-    best:'All 5 lenders accessible — shop rate',
-    talkingPoint:'"Every lender on our list will look at you. Compare the promo period length and what the rate flips to after. GreenSky and Synchrony are competing for your business right now."'
-  },
-  { min:700, max:739, label:'Prime+', shortLabel:'Good', apr:0.095, aprDisplay:'8–11%',
-    approvalSm:'Very Good (72–82%)', approvalMd:'Good (65–75%)', approvalLg:'Good (58–70%)',
-    color:'#1E8449', lightColor:'rgba(30,132,73,0.2)',
-    lenderFits:{wf:'✅',sfc:'✅',gs:'✅',turns:'✅',sync:'✅'},
-    lenderDetail:{wf:'WF opens up fully at 700. Personal loan + HELOC options. Competitive rates.',sfc:'Premium SFC programs available. Best rate tiers start here.',gs:'Solid approval. Deferred interest promos and 0% periods accessible.',turns:'Strong approval. Higher loan limits available at this score.',sync:'Premier programs available. Best Synchrony promo offers in range.'},
-    best:'All 5 — compare promo offers & dealer fees',
-    talkingPoint:'"Every door is open. Compare the promo period length and what the rate flips to after. GreenSky and Synchrony are competing for your business right now."'
-  },
-  { min:740, max:779, label:'Super-Prime', shortLabel:'Very Good', apr:0.075, aprDisplay:'6–9%',
-    approvalSm:'Excellent (85–92%)', approvalMd:'Excellent (80–88%)', approvalLg:'Very Good (75–85%)',
-    color:'#148F77', lightColor:'rgba(20,143,119,0.2)',
-    lenderFits:{wf:'✅',sfc:'✅',gs:'✅',turns:'✅',sync:'✅'},
-    lenderDetail:{wf:'WF\'s best unsecured terms. Rate negotiation possible.',sfc:'Top SFC programs — best available rates and longest terms.',gs:'Preferred GreenSky borrower. All promos accessible. Instant approval.',turns:'Premium tier — expect fast approval and best Turns terms.',sync:'Best Synchrony programs including 18–24 month 0% periods.'},
-    best:'All 5 — negotiate terms',
-    talkingPoint:'"At this score you\'re everyone\'s favorite customer. Tell them that. You can literally ask for a better deal and get it. Don\'t take the first offer from anyone."'
-  },
-  { min:780, max:850, label:'Elite', shortLabel:'Excellent', apr:0.055, aprDisplay:'5–7%',
-    approvalSm:'Excellent (93–99%)', approvalMd:'Excellent (90–97%)', approvalLg:'Excellent (88–96%)',
-    color:'#1A5276', lightColor:'rgba(26,82,118,0.3)',
-    lenderFits:{wf:'✅',sfc:'✅',gs:'✅',turns:'✅',sync:'✅'},
-    lenderDetail:{wf:'WF\'s absolute best terms. Highest limits, lowest APR.',sfc:'Elite SFC tier — max limits, best rates, fastest funding.',gs:'GreenSky\'s ideal profile. All deferred-interest programs available.',turns:'Top Turns tier — best terms, highest limits, fastest contractor payouts.',sync:'All Synchrony elite programs. Longest 0% promo periods available.'},
-    best:'All 5 — focus on terms, not rate',
-    talkingPoint:'"Rate isn\'t your concern — terms are. Ask every lender: prepayment penalty? Deferred interest trap? Promo period length? At 780+ you\'re calling the shots."'
-  }
-];
-
-const LC_LENDERS = [
-  { key:'wf', name:'Wells Fargo', color:'#C41230', icon:'🏛️',
-    type:'Direct Bank — Consumer applies independently', floor:'~620', max:'$100,000',
-    strength:'Highest trust factor with homeowners. Best for prime+ borrowers who want a name they recognize. Good rates at 700+.',
-    watch:'Slowest process of the five. Homeowner applies independently — tech can\'t present it at the table. Conservative underwriting.'
-  },
-  { key:'sfc', name:'Service Finance Co.', color:'#004990', icon:'🔧',
-    type:'Contractor channel — Tech presents at point of sale', floor:'~600–620 (varies)', max:'$150,000+',
-    strength:'Purpose-built for in-home contractors. Multiple tiers mean more customers get approved. Strong near-prime coverage. Fast contractor funding.',
-    watch:'Customer service complaints common. Deferred interest on some programs — explain the trap. Verify for liens on secured programs.'
-  },
-  { key:'gs', name:'GreenSky', color:'#00693E', icon:'🌿',
-    type:'Contractor channel — via GreenSky app at point of sale', floor:'~600 soft / ~650+ preferred', max:'$100,000',
-    strength:'0% promo periods are a powerful close tool. Average approved borrower: 768 FICO — fast approvals for quality borrowers.',
-    watch:'Deferred interest trap — backdated interest hits if not paid in promo period. CFPB $2.5M settlement 2021. Explain terms clearly.'
-  },
-  { key:'turns', name:'Turns', color:'#6A1B9A', icon:'⚡',
-    type:'Contractor channel — digital-first, in-home presentation', floor:'Est. ~580–620', max:'~$25K–$55K',
-    strength:'Designed specifically for trades contractors. Faster digital approval. May approve slightly lower scores than GreenSky in some programs.',
-    watch:'Least transparent of the five — no published floor or rate tables. Verify current program terms with your Turns rep before pitching.'
-  },
-  { key:'sync', name:'Synchrony', color:'#E65100', icon:'💳',
-    type:'Contractor + retail — home project card / installment loan', floor:'~600–640 (DTI-weighted)', max:'$100,000',
-    strength:'Most score-flexible of the five — strong DTI can offset lower score. 33 promo products. Manufacturer partnerships can subsidize dealer fees.',
-    watch:'Dealer fees 0.99%–15% — know your program. Revolving card structure may feel unfamiliar. Standard APR kicks in after promo if not paid off.'
-  }
-];
-
-// ── LOAN GUIDE — FUNCTIONS ───────────────────────────────────────────────
-function lcGetTier(score) {
-  return LC_TIERS.find(function(t){ return score >= t.min && score <= t.max; }) || LC_TIERS[0];
-}
-function lcCalcPMT(principal, annualRate, months) {
-  if (annualRate === 0) return principal / months;
-  var r = annualRate / 12;
-  return principal * r * Math.pow(1+r, months) / (Math.pow(1+r, months) - 1);
-}
-function lcFmt(n) { return '$' + Math.round(n).toLocaleString(); }
-function lcGetApproval(tier, amount) {
-  if (amount <= 10000) return tier.approvalSm;
-  if (amount <= 25000) return tier.approvalMd;
-  return tier.approvalLg;
-}
-
-function lcUpdateCalc() {
-  var score  = parseInt(document.getElementById('fico-slider').value);
-  var amount = parseInt(document.getElementById('amount-slider').value);
-  var term   = parseInt(document.getElementById('term-select').value);
-  var tier   = lcGetTier(score);
-
-  document.getElementById('score-display').textContent  = score;
-  document.getElementById('amount-display').textContent = '$' + amount.toLocaleString();
-  document.getElementById('lender-fico-display').textContent = score;
-
-  var pct = ((score - 300) / 550) * 100;
-  var fill = document.getElementById('score-fill');
-  fill.style.width = pct + '%';
-  fill.style.background = 'linear-gradient(90deg,' + tier.color + '88,' + tier.color + ')';
-
-  document.getElementById('res-tier').textContent  = tier.label + ' — ' + tier.shortLabel;
-  document.getElementById('res-label').textContent = 'FICO ' + score;
-  document.getElementById('res-sub').textContent   = tier.min + '–' + tier.max + ' range';
-
-  var pmt      = tier.apr !== null ? lcCalcPMT(amount, tier.apr, term) : null;
-  var interest = pmt ? (pmt * term - amount) : null;
-
-  document.getElementById('res-apr').textContent      = tier.aprDisplay;
-  document.getElementById('res-pmt').textContent      = pmt ? lcFmt(pmt) + '/mo' : 'N/A';
-  document.getElementById('res-pmt-sub').textContent  = pmt ? term + ' months · ' + lcFmt(amount) + ' loan' : 'Not available at this score';
-  document.getElementById('res-interest').textContent = interest ? lcFmt(interest) : 'N/A';
-  document.getElementById('res-approval').textContent = lcGetApproval(tier, amount);
-  document.getElementById('res-lender-type').textContent = tier.best;
-
-  var badgeEl = document.getElementById('best-lender-badge');
-  badgeEl.className = 'lc-approval-badge ' + (tier.apr === null ? 'lc-badge-red' : tier.apr <= 0.10 ? 'lc-badge-green' : tier.apr <= 0.18 ? 'lc-badge-yellow' : tier.apr <= 0.27 ? 'lc-badge-orange' : 'lc-badge-red');
-  badgeEl.textContent = '🎯 ' + tier.best;
-  document.getElementById('best-lender-text').textContent = 'At FICO ' + score + ', your best path is: ' + tier.best + '. Estimated APR: ' + tier.aprDisplay + '. Approval odds for $' + amount.toLocaleString() + ': ' + lcGetApproval(tier, amount) + '.';
-  document.getElementById('talking-point-text').textContent = tier.talkingPoint;
-
-  lcBuildSavingsTable(score, amount, term, tier);
-  lcBuildLenderGrid(tier);
-  document.getElementById('lender-talking-point').textContent = tier.talkingPoint;
-}
-
-function lcBuildSavingsTable(score, amount, term, currentTier) {
-  var tbody = document.getElementById('savings-tbody');
-  tbody.innerHTML = '';
-  var scenarios = [{ label:'If score stays here', scoreEx:Math.round((currentTier.min+currentTier.max)/2), tier:currentTier, isCurrent:true }];
-  var nextTier = LC_TIERS.find(function(t){ return t.min > currentTier.max; });
-  var topTier  = LC_TIERS[LC_TIERS.length - 1];
-  if (nextTier && nextTier !== currentTier) scenarios.push({ label:'Next tier up', scoreEx:Math.round((nextTier.min+nextTier.max)/2), tier:nextTier, isCurrent:false });
-  if (topTier !== currentTier && topTier !== nextTier) scenarios.push({ label:'Elite (780–850)', scoreEx:800, tier:topTier, isCurrent:false });
-  var currentPmt = currentTier.apr !== null ? lcCalcPMT(amount, currentTier.apr, term) : null;
-  scenarios.forEach(function(sc) {
-    var pmt      = sc.tier.apr !== null ? lcCalcPMT(amount, sc.tier.apr, term) : null;
-    var interest = pmt ? (pmt * term - amount) : null;
-    var savings  = (currentPmt && pmt) ? (currentPmt - pmt) * term : null;
-    var tr = document.createElement('tr');
-    if (sc.isCurrent) tr.className = 'lc-current-row';
-    tr.innerHTML = '<td>' + sc.label + (sc.isCurrent ? ' <span style="background:var(--royal);color:white;font-size:10px;padding:2px 6px;border-radius:10px;font-weight:700;font-family:\'Barlow Condensed\',sans-serif;">YOU</span>' : '') + '</td>' +
-      '<td>' + sc.scoreEx + '</td><td>' + sc.tier.aprDisplay + '</td>' +
-      '<td>' + (pmt ? lcFmt(pmt) + '/mo' : 'N/A') + '</td>' +
-      '<td>' + (interest ? lcFmt(interest) : 'N/A') + '</td>' +
-      '<td>' + (savings !== null ? (savings > 0 ? '<span style="color:#2ECC71;font-weight:800;">Save ' + lcFmt(savings) + '</span>' : '—') : '—') + '</td>';
-    tbody.appendChild(tr);
-  });
-}
-
-function lcBuildLenderGrid(tier) {
-  var grid = document.getElementById('lender-grid');
-  grid.innerHTML = '';
-  LC_LENDERS.forEach(function(l) {
-    var card = document.createElement('div');
-    card.className = 'lc-lender-card';
-    card.innerHTML = '<div class="lc-lender-hdr" style="background:' + l.color + '">' + l.icon + ' ' + l.name + '</div>' +
-      '<div class="lc-lender-body"><div class="lc-lender-fit">' + tier.lenderFits[l.key] + '</div>' +
-      '<div class="lc-lender-detail">' + tier.lenderDetail[l.key] + '</div>' +
-      '<div class="lc-lender-tip">Floor: ' + l.floor + ' · Max: ' + l.max + '</div></div>';
-    grid.appendChild(card);
-  });
-}
-
-function lcBuildFullTable() {
-  var currentScore = parseInt(document.getElementById('fico-slider').value);
-  document.getElementById('full-table').innerHTML = '<thead><tr><th>FICO Range</th><th>Tier</th><th>Est. APR</th><th>Approval ($1K–10K)</th><th>Approval ($5K–25K)</th><th>Approval ($10K–75K)</th><th>Best Lender(s)</th></tr></thead><tbody>' +
-    LC_TIERS.map(function(t) {
-      var cur = currentScore >= t.min && currentScore <= t.max;
-      return '<tr' + (cur ? ' class="lc-current-row"' : '') + '>' +
-        '<td><strong style="color:' + t.color + '">' + t.min + '–' + t.max + '</strong></td>' +
-        '<td><span class="lc-tier-pill" style="background:' + t.lightColor + ';color:' + t.color + '">' + t.label + '</span></td>' +
-        '<td><strong>' + t.aprDisplay + '</strong></td>' +
-        '<td>' + t.approvalSm + '</td><td>' + t.approvalMd + '</td><td>' + t.approvalLg + '</td>' +
-        '<td style="font-size:11px;">' + t.best + '</td></tr>';
-    }).join('') + '</tbody>';
-}
-
-function lcBuildProfiles() {
-  var grid = document.getElementById('profile-grid');
-  grid.innerHTML = '';
-  LC_LENDERS.forEach(function(l) {
-    var card = document.createElement('div');
-    card.className = 'lc-profile-card';
-    card.innerHTML = '<div class="lc-pc-header" style="background:' + l.color + '"><div style="font-size:28px;">' + l.icon + '</div>' +
-      '<div><div class="lc-pc-name">' + l.name + '</div><div class="lc-pc-type">' + l.type + '</div></div></div>' +
-      '<div class="lc-pc-body">' +
-      '<div class="lc-pc-row"><span class="lc-pc-row-label">FICO Floor</span><span class="lc-pc-row-value">' + l.floor + '</span></div>' +
-      '<div class="lc-pc-row"><span class="lc-pc-row-label">Max Loan</span><span class="lc-pc-row-value" style="color:#2ECC71">' + l.max + '</span></div>' +
-      '<div class="lc-pc-strength"><div class="lc-pc-section-label" style="color:#2ECC71">✅ Strength</div>' + l.strength + '</div>' +
-      '<div class="lc-pc-watch"><div class="lc-pc-section-label" style="color:#E67E22">⚠️ Watch Out For</div>' + l.watch + '</div></div>';
-    grid.appendChild(card);
-  });
-}
-
 // INIT
 async function init() {
   await loadData();
   renderMarketName();
   if (fieldOnlyMode) {
-    document.querySelector('#app-financing .tabs').style.display = 'none';
+    document.querySelector('.tabs').style.display = 'none';
     document.getElementById('screen-office').remove();
     document.getElementById('screen-setup').remove();
-    currentBsTab = 'field';
+    currentTab = 'field';
   }
-  loadLogo();
   renderAmountGrid();
   renderCards();
   renderOfficeSummary();
-  lcUpdateCalc();
 }
 init();
 </script>
